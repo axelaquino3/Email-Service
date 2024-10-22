@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 
 
-module.exports.sendEmail = async (event) => {
+exports.sendEmail = async (event) => {
   console.log('Received event:', event);
 
   const response = {
