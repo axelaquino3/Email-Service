@@ -18,7 +18,7 @@ module.exports.sendEmail = async (event) => {
         Data: "Hello from Lambda",
       },
     },
-    Source: "aquino.axel@gmail.com", // This is the email listed in sender. Set it to your email for this practice
+    Source: "example@example.com", // This is the email listed in sender. Set it to your email for this practice
   };
   await ses.sendEmail(params).promise();
   // in the object that is `return`ed, replace the `body.message` property with `Email sent to ${params.Destination.ToAddresses}`
