@@ -2,7 +2,22 @@ const AWS = require("aws-sdk");
 const ses = new AWS.SES({ region: "us-west-2" });
 
 module.exports.sendEmail = async (event) => {
-  console.log("Received event:", event);
+  const queryParams = event.queryStringParameters || {};
+  // select from the query parameters
+  let { email, message, subject } = queryParams;
+
+  message = message || "This is a message generated automaticaly from a Lambda function.";
+  subject = subject || "Hello from Lambda";
+
+
+  if (!email) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        message: "Email is required"
+      })
+    };
+  }
 
   // inside the `exports.handler.sendEmail` function, before the `return` statement
   const params = {
@@ -27,8 +42,9 @@ module.exports.sendEmail = async (event) => {
   const response = {
     statusCode: 200,
     body: JSON.stringify({
-      message: `Email sent to ${params.Destination.ToAddresses}`,
-    }),
+      message: `Email sent to ${email} with subject ${subject} and a message ${message}`,
+      input: event,
+    }, null, 2),
   };
 
   return response;
